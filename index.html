@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Süper Çevirmen</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="translation-box">
+            <div class="translation-panel">
+                <span id="source-lang-label">İNGİLİZCE</span>
+                <textarea id="source-text" placeholder="Metin girin..."></textarea>
+                <div class="controls">
+                    <button id="listen-source"><i class="fas fa-volume-up"></i></button>
+                    </div>
+            </div>
+
+            <button id="swap-button">
+                <i class="fas fa-exchange-alt"></i>
+            </button>
+
+            <div class="translation-panel">
+                <span id="target-lang-label">TÜRKÇE</span>
+                <textarea id="target-text" readonly></textarea>
+                <div class="controls">
+                    <button id="copy-target"><i class="far fa-copy"></i></button>
+                    <button id="listen-target"><i class="fas fa-volume-up"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
