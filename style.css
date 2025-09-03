@@ -1,115 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-color: #1a1a1a;
+    --card-bg: #2b2b2b;
+    --text-color: #f0f0f0;
+    --secondary-text-color: #aaa;
+    --accent-color: #00aaff;
+    --border-color: #444;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f4f8;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Arka Plan Efekti */
+.background-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 10% 20%, #2a2a2a, #1a1a1a 80%);
+    z-index: -1;
+    animation: pulse-bg 15s infinite alternate;
+}
+
+@keyframes pulse-bg {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
 }
 
 .container {
     width: 90%;
-    max-width: 900px;
+    max-width: 1200px;
+    z-index: 1;
 }
 
 .translation-box {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    justify-content: center;
+    gap: 30px;
+    background-color: var(--card-bg);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color);
 }
 
 .translation-panel {
     flex: 1;
     position: relative;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #3a3a3a;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
 }
 
 .translation-panel:first-child {
-    margin-right: 15px;
+    border: 2px solid var(--accent-color);
 }
 
 .translation-panel:last-child {
-    margin-left: 15px;
+    border: 2px solid var(--border-color);
 }
 
 .translation-panel span {
-    font-weight: bold;
-    color: #555;
+    font-weight: 500;
+    color: var(--secondary-text-color);
     font-size: 14px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     display: block;
 }
 
 textarea {
     width: 100%;
-    height: 200px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    font-size: 16px;
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    font-size: 18px;
     resize: none;
     outline: none;
-    transition: border-color 0.3s;
+    line-height: 1.6;
+    padding: 0;
 }
 
-textarea:focus {
-    border-color: #007bff;
+textarea::placeholder {
+    color: #888;
 }
 
 .controls {
-    position: absolute;
-    bottom: 10px;
-    right: 15px;
     display: flex;
-    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
 }
 
-.controls button {
+.control-button {
     background: none;
     border: none;
     cursor: pointer;
-    color: #6c757d;
+    color: var(--secondary-text-color);
     font-size: 18px;
-    transition: color 0.3s;
+    transition: color 0.3s, transform 0.2s;
+    padding: 5px;
 }
 
-.controls button:hover {
-    color: #000;
+.control-button:hover {
+    color: var(--accent-color);
+    transform: translateY(-2px);
 }
 
-#swap-button {
-    background-color: #007bff;
+.word-count {
+    font-size: 12px;
+    color: var(--secondary-text-color);
+}
+
+.swap-button {
+    background-color: var(--accent-color);
     color: #fff;
     border: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+    width: 55px;
+    height: 55px;
+    font-size: 20px;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s ease-in-out, background-color 0.3s;
 }
 
-#swap-button:active {
+.swap-button:hover {
+    background-color: #0088cc;
+}
+
+.swap-button.rotated {
     transform: rotate(180deg);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .translation-box {
         flex-direction: column;
+        padding: 20px;
     }
-    .translation-panel:first-child, .translation-panel:last-child {
-        margin: 0 0 20px 0;
+    .translation-panel {
+        width: 100%;
+        margin-bottom: 20px;
     }
-    #swap-button {
+    .swap-button {
         transform: rotate(90deg);
-        margin: 20px 0;
+        margin: 10px 0;
     }
-    #swap-button:active {
+    .swap-button.rotated {
         transform: rotate(270deg);
     }
 }
