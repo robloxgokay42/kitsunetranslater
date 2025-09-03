@@ -11,6 +11,7 @@ const targetLangLabel = document.getElementById('target-lang-label');
 
 // Kelime/Karakter Sayacı ve Sınırı
 const MAX_CHAR_COUNT = 1000;
+let typingTimer; // Yazma gecikmesi için timer
 
 sourceTextarea.addEventListener('input', () => {
     // Karakter sayısını güncelle
@@ -24,12 +25,10 @@ sourceTextarea.addEventListener('input', () => {
     }
 
     // Kullanıcı yazdıkça çeviri fonksiyonunu çağır
-    // Küçük bir gecikme ekleyerek API isteklerini optimize edebiliriz
-    // Örneğin, 300ms sonra çeviri başlasın
     clearTimeout(typingTimer);
     typingTimer = setTimeout(() => {
         translateText(sourceTextarea.value);
-    }, 300);
+    }, 500); // 500 milisaniye (0.5 saniye) sonra çeviri başlar
 });
 
 // Dil Değiştirme (Swap) Butonu İşlevi
@@ -83,31 +82,38 @@ copyTargetButton.addEventListener('click', () => {
     alert('Çeviri kopyalandı!');
 });
 
-// Çeviri İşlevini Gerçekleştiren Fonksiyon (API Entegrasyonu)
+// Çeviri İşlevini Gerçekleştiren Fonksiyon (LibreTranslate API Entegrasyonu)
 async function translateText(text) {
     if (text.trim() === '') {
         targetTextarea.value = '';
         return;
     }
 
-    // Hangi dilden hangi dile çeviri yapılacağını belirle
     const sourceLang = sourceLangLabel.textContent === 'İNGİLİZCE' ? 'en' : 'tr';
     const targetLang = targetLangLabel.textContent === 'TÜRKÇE' ? 'tr' : 'en';
 
-    // Gerçek API isteğini buraya ekleyeceksin
-    // Bu kısım bir örnek, gerçek API kodunu buraya eklemelisin
-    try {
-        // Çeviri API'sinden yanıt bekleniyor...
-        // Örnek:
-        // const response = await fetch(`https://api.çeviri-servisi.com?text=${encodeURIComponent(text)}&source=${sourceLang}&target=${targetLang}`);
-        // const data = await response.json();
-        // targetTextarea.value = data.translatedText;
+    targetTextarea.value = 'Çevriliyor...';
 
-        // Geçici olarak mock çeviri
-        targetTextarea.value = `Çevriliyor: ${text}`;
-        
+    try {
+        const response = await fetch('https://translate.argosopentech.com/translate', {
+            method: 'POST',
+            body: JSON.stringify({
+                q: text,
+                source: sourceLang,
+                target: targetLang
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP hatası! Durum: ${response.status}`);
+        }
+
+        const data = await response.json();
+        targetTextarea.value = data.translatedText;
+
     } catch (error) {
         console.error('Çeviri sırasında bir hata oluştu:', error);
-        targetTextarea.value = 'Hata: Çeviri yapılamadı.';
+        targetTextarea.value = 'Hata: Çeviri yapılamadı. Lütfen internet bağlantınızı kontrol edin.';
     }
 }
